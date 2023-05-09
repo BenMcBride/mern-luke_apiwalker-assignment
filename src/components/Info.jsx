@@ -43,6 +43,16 @@ const Info = (props) => {
     }
   }
 
+  const homeworldURL = (url) => {
+    if (url) {
+      const path = url.replace('https://swapi.dev/api/', ''); // take out the api website's part of the URL
+      const [category, id] = path.split('/'); // take the slashes out of the URL
+      return `/${category === 'planets' ? category : 'people'}/${id}/`; // replace URL to be /planets/1/ instead of /people/planets/1/
+    } else {
+      return 'N/A'
+    }
+  }
+
   useEffect(() => {
     if (info.homeworld) {
       getHomeworld(info.homeworld)
@@ -110,7 +120,7 @@ const Info = (props) => {
             </tr>
             <tr>
               <th>Homeworld:</th>
-              <td>{isLoading ? 'Loading...' : error ? 'Error fetching homeworld' : <a href={info.homeworld}>{homeworld}</a> }</td>
+              <td>{isLoading ? 'Loading...' : error ? 'Error fetching homeworld' : <a href={homeworldURL(info.homeworld)}>{homeworld}</a> }</td>
             </tr>
           </tbody>
         </table>
